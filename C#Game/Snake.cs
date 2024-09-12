@@ -5,13 +5,13 @@ using System.Windows.Forms;
 public class Snake {
 
     // snake length
-    private int _length; 
+    private int _length;
 
     // the position where the head is at
-    private float[] _headPos; 
+    private float[] _headPos;
     
     // velocity (direction of snake determined by velocity)
-    private float[] _vel; 
+    private float[] _vel;
 
     // the list of snake body blocks (including the head)
     private ArrayList<SnakeBlock> _snakeBlocks;
