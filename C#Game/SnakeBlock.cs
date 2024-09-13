@@ -2,27 +2,32 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-public class SnakeBlock {
+public class SnakeBlock
+{
     private float[] _pos;
+    public static int sideLength = 15;
 
-    public float[] pos {
+    public float[] pos
+    {
         get { return _pos; }
         set { _pos = value; }
     }
 
-    public SnakeBlock(int direction, int[] pos) {
-        _direction = direction;
-        _pos = pos;
+    public SnakeBlock()
+    {
+
     }
 
-    public void Reset() {
-
+    public SnakeBlock(float[] pos)
+    {
+        _pos = pos;
     }
 
     /**
      * Update the position of the block using delta time and velocity
      */
-    public void Update(float dt, float[] vel) {
+    public void Update(float dt, float[] vel)
+    {
         float x = dt * vel[0] + _pos[0];
         float y = dt * vel[1] + _pos[1];
         _pos = new float[] {x, y};
@@ -31,11 +36,15 @@ public class SnakeBlock {
     /**
      * Update the position of the block using a position
      */
-    public void Update(float[] pos) {
+    public void Update(float[] pos)
+    {
         _pos = pos;
     }
 
-    public void Draw(Graphics g) {
-
+    public void Draw(Graphics g)
+    {
+        Color c = ColorTranslator.FromHtml("#142F98");
+        Brush brush = new SolidBrush(c);
+        g.FillRectangle(brush, (int)_pos[0], (int)_pos[1], sideLength, sideLength);
     }
 }
