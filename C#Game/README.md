@@ -17,4 +17,4 @@ to run the program.
 
 ## Gameplay GIF
 
-![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/C#Game/gameplay.gif)
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/C%23Game/gameplay.gif)
