@@ -21,14 +21,29 @@ public class Snake
         get { return _length; }
     }
 
+    public float[] headPos
+    {
+        get { return _headPos; }
+    }
+
+    public float[] vel
+    {
+        get { return _vel; }
+    }
+
+    public Snake()
+    {
+        Reset();
+    }
+
     /**
      * Initialize the snake
      */
     public void Reset()
     {
         _length = 1;
-        _headPos = new float[] {320f, 240f};
-        _vel = new float[] {50f, 0f};
+        _headPos = new float[] {320f, 225f};
+        _vel = new float[] {100f, 0f};
         _snakeBlocks = new SnakeBlock[100];
         _snakeBlocks[0] = new SnakeBlock(_headPos);
     }
@@ -37,18 +52,22 @@ public class Snake
     {
         for (int i = _length - 1; i > 0; i--)
         {
-            /* 
-             * Update snake body by moving each body block to the location 
+            /* Update snake body by moving each body block to the location 
              * of the body block ahead of it
              */
             _snakeBlocks[i].Update(_snakeBlocks[i - 1].pos);
         }
         _snakeBlocks[0].Update(dt, _vel); // update snake head at last
+        // update headPos
+        _headPos = _snakeBlocks[0].pos;
         // speed up the snake
-        _vel[0] *= (1 + dt / 1000);
-        _vel[1] *= (1 + dt / 1000);
+        _vel[0] *= (1 + dt / 500);
+        _vel[1] *= (1 + dt / 500);
     }
 
+    /**
+     * Increase the length of the snake by 1
+     */
     public void Increase()
     {
         _snakeBlocks[_length] = new SnakeBlock(
@@ -57,6 +76,15 @@ public class Snake
         _length += 1;
     }
 
+    public float[] HeadCenter()
+    {
+        return _snakeBlocks[0].Center();
+    }
+
+    /**
+     * Make the snake move upward. The snake must be moving left or right
+     * before this is called. Otherwise nothing will happen.
+     */
     public void Up()
     {
         if (_vel[1] == 0)
@@ -73,6 +101,10 @@ public class Snake
         }
     }
 
+    /**
+     * Make the snake move downward. The snake must be moving left or right
+     * before this is called. Otherwise nothing will happen.
+     */
     public void Down()
     {
         if (_vel[1] == 0)
@@ -89,6 +121,10 @@ public class Snake
         }
     }
 
+    /**
+     * Make the snake move left. The snake must be moving up or down before
+     * this is called. Otherwise nothing will happen.
+     */
     public void Left()
     {
         if (_vel[0] == 0)
@@ -106,6 +142,10 @@ public class Snake
         }
     }
 
+    /**
+     * Make the snake move right. The snake must be moving up or down before
+     * this is called. Otherwise nothing will happen.
+     */
     public void Right()
     {
         if (_vel[0] == 0)

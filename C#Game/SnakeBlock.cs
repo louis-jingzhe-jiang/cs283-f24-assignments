@@ -43,8 +43,17 @@ public class SnakeBlock
 
     public void Draw(Graphics g)
     {
-        Color c = ColorTranslator.FromHtml("#142F98");
+        Color c = ColorTranslator.FromHtml("#ffee00");
         Brush brush = new SolidBrush(c);
         g.FillRectangle(brush, (int)_pos[0], (int)_pos[1], sideLength, sideLength);
+    }
+
+    public float[] Center()
+    {
+        return new float[]
+        {
+            _pos[0] + (float) sideLength / 2,
+            _pos[1] + (float) sideLength / 2
+        };
     }
 }
