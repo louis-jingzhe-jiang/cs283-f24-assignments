@@ -31,7 +31,13 @@ Low-Poly Simple Nature Pack
 
 https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153?srsltid=AfmBOoo-6os_UVTM30dCrzMFGBYBmjSWGdJ5lPwVBvgJrNZ6oDVcU3Or
 
+LowPolySkeletonRigged
 
+https://www.turbosquid.com/3d-models/3d-model-lowpolyskeletonrigged-1970201
+
+Cute Bunny
+
+https://www.turbosquid.com/3d-models/3d-model-cute-bunny-2282565
 
 Unity Standard Assets
 
