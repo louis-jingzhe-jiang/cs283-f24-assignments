@@ -45,7 +45,7 @@ Unity Standard Assets
 # A04
 
 ### Character and Home Area
-![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A04_spawn_area_character.png)
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A04-spawn_area_character.png)
 
 ### Quest area
 ![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A04-quest_area.png)
