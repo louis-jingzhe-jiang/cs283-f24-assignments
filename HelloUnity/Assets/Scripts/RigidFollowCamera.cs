@@ -35,6 +35,5 @@ public class RigidFollowCamera : MonoBehaviour
             target.forward * hDist + target.up * vDist;
         transform.rotation = Quaternion.LookRotation(target.position - 
             transform.position + new Vector3(0, hDist/3, 0));
-        
     }
 }
