@@ -74,3 +74,8 @@ RPG Poly Pack - Lite
 https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410
 
 Unity Standard Assets
+
+# A05
+
+## GIF of character control, rigid camera, and spring camera 
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A05.gif)
