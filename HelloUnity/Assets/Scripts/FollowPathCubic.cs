@@ -25,7 +25,6 @@ public class FollowPathCubic : MonoBehaviour
     {
         StartCoroutine(DoLerp());
         _duration = timePoints[timePoints.Length - 1];
-        _totalTime = 0f;
     }
 
     // Update is called once per frame
