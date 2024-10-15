@@ -33,7 +33,7 @@ public class FollowPathLinear : MonoBehaviour
 
     IEnumerator DoLerp()
     {
-        for (_timer = 0; _timer < _duration; _timer += Time.deltaTime)
+        for (float _timer = 0; _timer < _duration; _timer += Time.deltaTime)
         {
             // determine which segment the object is in at this moment
             for (int i = 0; i < timePoints.Length - 1; i++)

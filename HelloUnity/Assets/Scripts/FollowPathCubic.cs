@@ -25,6 +25,7 @@ public class FollowPathCubic : MonoBehaviour
     {
         StartCoroutine(DoLerp());
         _duration = timePoints[timePoints.Length - 1];
+        _totalTime = 0f;
     }
 
     // Update is called once per frame
@@ -37,8 +38,11 @@ public class FollowPathCubic : MonoBehaviour
     }
 
     IEnumerator DoLerp()
-    {
-        for (_timer = 0; _timer < _duration; _timer += Time.deltaTime)
+    {   
+        // When I delete the keyword "float" in front of the variable _timer,
+        // it looks like _timer is ticking much faster than the actual time.
+        // I have no idea why is that.
+        for (float _timer = 0; _timer < _duration; _timer += Time.deltaTime)
         {
             // determine which segment the object is in at this moment
             for (int i = 0; i < timePoints.Length - 1; i++)
@@ -80,7 +84,6 @@ public class FollowPathCubic : MonoBehaviour
                     break;
                 }
             }
-            Debug.Log("timer = " + _timer);
             // normalize time
             float u = (_timer - timePoints[_seg]) /
                 (timePoints[_seg + 1] - timePoints[_seg]);
