@@ -55,14 +55,15 @@ public class GazeController : MonoBehaviour
         // calculating dot and cross products
         // the head's up direction is actually pointing forward, thus we use
         // head.up all the time in the calculation of dot and cross products
-        Vector3 _crossProd = Vector3.Cross(_direction, head.forward);
-        float _dotProd = Vector3.Dot(_direction, head.forward);
-        float _selfDotProd = Vector3.Dot(_direction, _direction);
+        Vector3 _cross = Vector3.Cross(_direction, head.up);
+        float _dot = Vector3.Dot(_direction, head.up);
+        float _selfDot = Vector3.Dot(_direction, _direction);
         // calculating angle
-        float _angle = Mathf.Atan2(_crossProd.magnitude, _dotProd + _selfDotProd);
+        float _angle = Mathf.Atan2(_cross.magnitude, _dot + _selfDot);
         // calculating rotation axis
-        Vector3 _axis = _crossProd / _crossProd.magnitude;
+        Vector3 _axis = _cross / _cross.magnitude;
         // Now, we should assign the rotation to the head
-        head.rotation = Quaternion.AngleAxis(_angle, _axis) * Quaternion.Inverse(Quaternion.Euler(90f, 180f, -90));
-    }
+        head.parent.rotation = head.parent.rotation * 
+            Quaternion.AngleAxis(_angle * Mathf.Rad2Deg, _axis);
+    }// * Quaternion.Euler(-90, 0, 90) * Quaternion.Euler(90, -90, 0)
 }
