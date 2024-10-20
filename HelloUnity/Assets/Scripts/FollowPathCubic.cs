@@ -120,4 +120,24 @@ public class FollowPathCubic : MonoBehaviour
             Mathf.Pow(1 - u, 2) * _b1 + 3 * Mathf.Pow(u, 2) * (1 - u) *
             _b2 + Mathf.Pow(u, 3) * _b3; // according to the equation
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Vector3[] curve = new Vector3[10 * points.Length];
+        for (int i = 0; i < points.Length; i++) 
+        {
+            for (int j = 0; j < 10; j++) 
+            {
+                curve[i * 10 + j] = _Calculate(0.1f * j);
+            }
+        }
+
+        Gizmos.DrawLineStrip(curve, false);
+
+        foreach (Transform p in points)
+        {
+            Gizmos.DrawSphere(p.position, 0.2f);
+        }
+    }
 }
