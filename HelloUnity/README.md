@@ -79,3 +79,23 @@ Unity Standard Assets
 
 ## GIF of character control, rigid camera, and spring camera 
 ![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A05.gif)
+
+# A06
+
+## Degree 1 spline
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06spline1.gif)
+
+## Degree 3 spline
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06spline3.gif)
+
+## Gaze control
+
+I wasn't able to achieve the gaze control demonstrated on the assignment webpage. However, the control I made is able to make sure that the eyes focus on the object, but the orientation of the head is random. I followed the instruction for the rotation formulation based on tangent, but I must have done something wrong.
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06gaze.gif)
+
+## Two link controller
+
+I wasn't able to achieve the gaze control demonstrated on the assignment webpage. However, the elbow control I made was working correctly. I followed the instruction for the rotation formulation based on tangent, but I must have done something wrong.
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06two_link.gif)

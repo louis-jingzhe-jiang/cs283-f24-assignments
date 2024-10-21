@@ -72,11 +72,16 @@ public class TwoLinkController : MonoBehaviour
             elbowAng = Mathf.Acos(cosElbow);
             //Debug.Log(cosElbow);
         }
-        
-        
+        // now apply the elbow rotation
+        // the elbow's rotation is only around the z axis
+        // tested! worked!
+        Debug.Log("Before: " + end.position);
+        end.parent.rotation = _elbowInitialRotation * Quaternion.Euler(0, 0, 
+            (Mathf.PI - elbowAng) * Mathf.Rad2Deg);
+        Debug.Log("After: " + end.position);
         // calculate the rotation for the shoulder
-        Vector3 r = end.position - _shoulderInitialPos;
-        Vector3 e = target.position - end.position;
+        Vector3 r = -1 * end.parent.parent.right;
+        Vector3 e = target.position - end.parent.parent.position;
         Vector3 cross = Vector3.Cross(r, e);
         float selfDot = Vector3.Dot(r, r);
         float dot = Vector3.Dot(r, e);
@@ -85,11 +90,8 @@ public class TwoLinkController : MonoBehaviour
         // now apply the shoulder rotation
         end.parent.parent.rotation = _shoulderInitialRotation * 
             Quaternion.AngleAxis(shoulderAng * Mathf.Rad2Deg, axis);
-        // now apply the elbow rotation
-        // the elbow's rotation is only around the z axis
-        Debug.Log(end.parent.rotation);
-        // tested! worked!
-        end.parent.rotation = _elbowInitialRotation * Quaternion.Euler(0, 0, 
-            (Mathf.PI - elbowAng) * Mathf.Rad2Deg);
+        
+        // The angle-axis doesn't work. The leg of my character keeps spining
+        // and it won't stop
     }
 }
