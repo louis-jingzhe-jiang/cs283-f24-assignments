@@ -94,8 +94,26 @@ I wasn't able to achieve the gaze control demonstrated on the assignment webpage
 
 ![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06gaze.gif)
 
+- Update:
+
+The gaze control was fixed!
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06gaze2.gif)
+
 ## Two link controller
 
 I wasn't able to achieve the gaze control demonstrated on the assignment webpage. However, the elbow control I made was working correctly. I followed the instruction for the rotation formulation based on tangent, but I must have done something wrong.
 
 ![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06two_link.gif)
+
+- Update:
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A06two_link2.gif)
+
+# A07
+
+I wasn't able to save my character because it returns a error message "You are trying to save a Prefab with a missing script. This is not allowed. Please change the script or remove it from the GameObject 'Accessory_SpineRibbon_00'." I don't think I have added this to my character. 
+
+Here is the GIF:
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A07.gif)

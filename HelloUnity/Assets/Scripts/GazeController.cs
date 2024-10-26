@@ -23,13 +23,11 @@ public class GazeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        // calculate the direction vector
-        Vector3 direction = target.position - head.position;
-        // calculate the current heading vector r (current looking object)
-        Vector3 r = head.up; // the up direction actually points forward
+        // calculate the current heading vector r (neck point towards head)
+        Vector3 r = head.parent.up;
         // calculate the displacement vector e representing the displacement
-        // from the current looking object to the target
-        Vector3 e = direction - r;
+        // from head to the target
+        Vector3 e = target.position - head.position;
         // visualize the line
         Debug.DrawLine(head.position, target.position, Color.red);
         // calculating dot and cross products
@@ -42,7 +40,7 @@ public class GazeController : MonoBehaviour
         // calculating rotation axis
         Vector3 axis = cross / cross.magnitude;
         // Now, we should assign the rotation to the head
-        head.parent.rotation *=  Quaternion.AngleAxis(
-            angle * Mathf.Rad2Deg, axis);
+        head.parent.rotation = Quaternion.AngleAxis(
+            angle * Mathf.Rad2Deg, axis) * head.parent.rotation;
     }
 }

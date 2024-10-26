@@ -43,13 +43,12 @@ public class TwoLinkController : MonoBehaviour
             end.parent.parent.position;
         _upperArmLength = elbowToShoulder.magnitude;
         _elbowInitialRotation = end.parent.rotation;
-        _shoulderInitialRotation = end.parent.parent.rotation;
-        _shoulderInitialPos = end.parent.parent.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //_elbowInitialRotation = end.parent.rotation;
         // calculate the distance from the shoulder to the end
         Vector3 targetToShoulderV = target.position - 
             end.parent.parent.position;
@@ -75,22 +74,21 @@ public class TwoLinkController : MonoBehaviour
         // now apply the elbow rotation
         // the elbow's rotation is only around the z axis
         // tested! worked!
-        Debug.Log("Before: " + end.position);
+        //Debug.Log("Before: " + end.position);
         end.parent.rotation = _elbowInitialRotation * Quaternion.Euler(0, 0, 
             (Mathf.PI - elbowAng) * Mathf.Rad2Deg);
-        Debug.Log("After: " + end.position);
+        //Debug.Log("After: " + end.position);
         // calculate the rotation for the shoulder
-        Vector3 r = -1 * end.parent.parent.right;
-        Vector3 e = target.position - end.parent.parent.position;
+        Vector3 r = end.position - end.parent.parent.position;
+        Vector3 e = target.position - end.position;
         Vector3 cross = Vector3.Cross(r, e);
         float selfDot = Vector3.Dot(r, r);
         float dot = Vector3.Dot(r, e);
         float shoulderAng = Mathf.Atan2(cross.magnitude, selfDot + dot);
         Vector3 axis = cross / cross.magnitude;
         // now apply the shoulder rotation
-        end.parent.parent.rotation = _shoulderInitialRotation * 
-            Quaternion.AngleAxis(shoulderAng * Mathf.Rad2Deg, axis);
-        
+        end.parent.parent.rotation = Quaternion.AngleAxis(shoulderAng * 
+            Mathf.Rad2Deg, axis) * end.parent.parent.rotation;
         // The angle-axis doesn't work. The leg of my character keeps spining
         // and it won't stop
     }
