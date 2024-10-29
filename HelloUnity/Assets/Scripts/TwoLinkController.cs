@@ -75,7 +75,7 @@ public class TwoLinkController : MonoBehaviour
         // the elbow's rotation is only around the z axis
         // tested! worked!
         //Debug.Log("Before: " + end.position);
-        end.parent.rotation = _elbowInitialRotation * Quaternion.Euler(0, 0, 
+        end.parent.localRotation = Quaternion.Euler(0, 0, 
             (Mathf.PI - elbowAng) * Mathf.Rad2Deg);
         //Debug.Log("After: " + end.position);
         // calculate the rotation for the shoulder
@@ -89,7 +89,5 @@ public class TwoLinkController : MonoBehaviour
         // now apply the shoulder rotation
         end.parent.parent.rotation = Quaternion.AngleAxis(shoulderAng * 
             Mathf.Rad2Deg, axis) * end.parent.parent.rotation;
-        // The angle-axis doesn't work. The leg of my character keeps spining
-        // and it won't stop
     }
 }
