@@ -69,7 +69,7 @@ public class PlayerMotionController : MonoBehaviour
         
         //_currentSpeed = Vector3.Magnitude(_previousPos - transform.position) / Time.deltaTime;
         _animator.SetFloat("horizontalSpeed", _currentSpeed);
-        Debug.Log(_currentSpeed);
+        //Debug.Log(_currentSpeed);
 
         _previousPos = transform.position;
     }
