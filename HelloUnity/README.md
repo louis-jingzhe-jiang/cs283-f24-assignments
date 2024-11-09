@@ -117,3 +117,11 @@ I wasn't able to save my character because it returns a error message "You are t
 Here is the GIF:
 
 ![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A07.gif)
+
+# A08
+
+# A09
+
+Here is the GIF:
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A09.gif)
