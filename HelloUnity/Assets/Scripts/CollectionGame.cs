@@ -33,16 +33,18 @@ public class CollectionGame : MonoBehaviour
     {
         int index = indexOf(other.tag);
         if (index != -1) // the item is in the tags
-        {   // when the character hits an target object, add _count by 1
-            _counts[index]++;
-            //Debug.Log("HIT");
+        {   
             // play animation / modify transform
             Animator animator = other.gameObject.GetComponent<Animator>();
-            animator.SetBool("exit", false);
-            Debug.Log(animator);
-            // make it inactive
-            other.gameObject.SetActive(false);
-            //animator.SetBool("exit", false);
+            if (animator.GetBool("exit")) 
+            {
+                return;
+            }
+            animator.SetBool("exit", true);
+            StartCoroutine(SleepAndDeactivate(animator.GetCurrentAnimatorStateInfo(0).length, other));
+            // when the character hits an target object, add _count by 1
+            _counts[index]++;
+            Debug.Log("HIT");
         }
     }
 
@@ -56,5 +58,12 @@ public class CollectionGame : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    private IEnumerator SleepAndDeactivate(float s, Collider other) 
+    {
+        yield return new WaitForSeconds(s);
+        // make it inactive
+        other.gameObject.SetActive(false);
     }
 }

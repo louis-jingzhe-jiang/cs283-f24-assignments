@@ -26,10 +26,16 @@ public class Spawner : MonoBehaviour
             {   // haven't been generated yet, generate
                 _generatedObj[i] = GameObject.Instantiate(spawnObj, 
                     _GeneratePosition(), transform.rotation);
+                _generatedObj[i].SetActive(true);
             }
             else if (!_generatedObj[i].activeInHierarchy)
             {   // not an active object, update its position and make it active
+                // transist the animation back to original state
+                Animator animator = _generatedObj[i].GetComponent<Animator>();
+                animator.SetBool("Exit", false);
                 _generatedObj[i].transform.position = _GeneratePosition();
+                _generatedObj[i].transform.rotation = spawnObj.transform.rotation;
+                _generatedObj[i].transform.localScale = spawnObj.transform.localScale;
                 _generatedObj[i].SetActive(true);
             }
         }
