@@ -39,17 +39,18 @@ public class BehaviorUnique : MonoBehaviour
      */
     public GameObject playerHome;
 
+    /**
+     * whether the enemy minion is in targetting mode
+     */
+    private bool _foundPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
+        _foundPlayer = false;
         // root
         _treeRoot = BT.Root();
-        // sequences
-        Sequence idleSeq = BT.Sequence();
-        Sequence attSeq = BT.Sequence();
-        Sequence retreatSeq = BT.Sequence();
         // conditions
-        BTNode isIdle = BT.Condition(IsIdle);
         BTNode foundPlayer = BT.Condition(FoundPlayer);
         BTNode shouldRetreat = BT.Condition(ShouldRetreat);
         // behaviors
@@ -58,10 +59,10 @@ public class BehaviorUnique : MonoBehaviour
         BTNode follow = BT.RunCoroutine(Follow);
         BTNode wander = BT.RunCoroutine(Wander);
         BTNode rest = BT.RunCoroutine(Rest);
-        // add branches to idle sequence (idleSeq)
-        idleSeq.OpenBranch(isIdle);
-        idleSeq.OpenBranch(wander);
-        idleSeq.OpenBranch(rest);
+        // sequences
+        Sequence attSeq = new Sequence();
+        Sequence retreatSeq = new Sequence();
+        Sequence idleSeq = new Sequence();
         // add branches to attack sequence (attSeq)
         attSeq.OpenBranch(foundPlayer);
         attSeq.OpenBranch(follow);
@@ -69,10 +70,16 @@ public class BehaviorUnique : MonoBehaviour
         // add branches to retreat sequence (retreatSeq)
         retreatSeq.OpenBranch(shouldRetreat);
         retreatSeq.OpenBranch(retreat);
-        // add branches to root
-        _treeRoot.OpenBranch(idleSeq);
-        _treeRoot.OpenBranch(attSeq);
-        _treeRoot.OpenBranch(retreatSeq);
+        // add branches to idle sequence (idleSeq)
+        idleSeq.OpenBranch(wander);
+        idleSeq.OpenBranch(rest);
+        // add branches to selector
+        Selector selector = BT.Selector();
+        selector.OpenBranch(attSeq);
+        selector.OpenBranch(retreatSeq);
+        selector.OpenBranch(idleSeq);
+        // add branch to root
+        _treeRoot.OpenBranch(selector);
     }
 
     // Update is called once per frame
@@ -118,7 +125,7 @@ public class BehaviorUnique : MonoBehaviour
         {
             NavMesh.SamplePosition(destination, out hit, 2.0f, NavMesh.AllAreas);
                 agent.SetDestination(hit.position);
-           yield return BTState.Continue;
+            yield return BTState.Continue;
         }
 
         yield return BTState.Success;
@@ -146,13 +153,13 @@ public class BehaviorUnique : MonoBehaviour
             target.transform.position);
         // if the player is within reach of the minion, then
         // the attack is successful
-        if (distance < 1) // successful 
+        if (distance < attackRange) // successful 
         {
             yield return BTState.Success;
         }
         else // did not hit the player
         {
-            yield return BTState.Failure; 
+            yield return BTState.Failure;
             yield break;
         }
     }
@@ -173,12 +180,14 @@ public class BehaviorUnique : MonoBehaviour
         while (agent.remainingDistance > 0.1f)
         {   // abort the wander behavior when found player in range
             if (FoundPlayer()) {
+                agent.ResetPath(); // Clears the path and stops the agent.
+                //agent.velocity = Vector3.zero; // Stops any residual movement.
                 yield return BTState.Abort;
+                yield break;
             }
             // otherwise continue wandering
             yield return BTState.Continue;
         }
-
         yield return BTState.Success;
     }
 
@@ -188,11 +197,14 @@ public class BehaviorUnique : MonoBehaviour
     IEnumerator<BTState> Rest()
     {
         Debug.Log("Entered Rest");
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        //agent.ResetPath(); // Clears the path and stops the agent.
         float time = 0f;
         while (time < 4f) 
         {   // abort the idle behavior when found player in range
             if (FoundPlayer()) {
                 yield return BTState.Abort;
+                yield break;
             }
             yield return BTState.Continue;
             time += Time.deltaTime;
@@ -200,30 +212,30 @@ public class BehaviorUnique : MonoBehaviour
         yield return BTState.Success;
     }
 
-    bool IsIdle()
-    {
-        // TODO
-        return true;
-    }
-
     bool FoundPlayer()
-    {   
+    {
         float distance = Vector3.Distance(transform.position, 
             target.transform.position);
         if (distance < observeRange) 
         {
+            _foundPlayer = true;
+            Debug.Log("FoundPlayer() returned true");
             return true;
         }
+        _foundPlayer = false;
+        Debug.Log("FoundPlayer() returned false");
         return false;
     }
 
     bool ShouldRetreat()
     {
+        Debug.Log("ShouldRetreat() called");
         // check whether the player is in home area
         Collider player = target.GetComponent<Collider>();
         Collider home = playerHome.GetComponent<Collider>();
         if (player.bounds.Intersects(home.bounds))
         {
+            _foundPlayer = false;
             return true;
         }
         return false;
