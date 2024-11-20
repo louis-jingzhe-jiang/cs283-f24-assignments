@@ -5,6 +5,25 @@ using UnityEngine;
 using BTAI;
 using UnityEngine.AI;
 
+/**
+ * Basic idea of the behavior of the skeleton minion:
+ * - Root
+ *   - Main Selector (Selector)
+ *     - Follow and Attack Sequence (Sequence)
+ *       - Determine whether the player is in sight (Condition)
+ *       - Second Selector (Selector)
+ *         - Attack Sequence (Sequence)
+ *           - Determine whether the player is in attack range (Condition)
+ *           - Do attack (Action / RunCoroutine)
+ *           - Do follow (Action / RunCoroutine)
+ *         - Follow Sequence (Sequence)
+ *           - Do follow (Action / RunCoroutine)
+ *     - Retreat Sequence (Sequence)
+ *       - Determine whether the player is in its home area (Condition)
+ *       - Do retreat (Action / RunCoroutine)
+ *     - Idle Sequence (Sequence)
+ *       - Do idle (Action / RunCoroutine)
+ */
 public class BehaviorUnique : MonoBehaviour
 {
     private Root _treeRoot;
@@ -18,11 +37,6 @@ public class BehaviorUnique : MonoBehaviour
      * The attack range of the enemy minion
      */
     public float attackRange;
-
-    /**
-     * The follow range of the enemy minion
-     */
-    public float followRange; // probably no use by now
 
     /**
      * The distance when the player will be seen by the enemy minion
@@ -50,6 +64,24 @@ public class BehaviorUnique : MonoBehaviour
         _foundPlayer = false;
         // root
         _treeRoot = BT.Root();
+        /*
+        // behaviors
+        BTNode retreat = BT.RunCoroutine(Retreat);
+        BTNode attack = BT.RunCoroutine(Attack);
+        BTNode follow = BT.RunCoroutine(Follow);
+        BTNode rest = BT.RunCoroutine(Rest);
+        // conditions
+        BTNode isInRange = BT.Condition(FoundPlayer);
+        BTNode shouldRetreat = BT.Condition(ShouldRetreat);
+        // sequences
+        Sequence idleSeq = BT.Sequence();
+        idleSeq.OpenBranch(rest);
+        // selector
+        Selector mainSelector = BT.Selector();
+        mainSelector.OpenBranch();
+        mainSelector.OpenBranch(idleSeq);
+        */
+        
         // conditions
         BTNode foundPlayer = BT.Condition(FoundPlayer);
         BTNode shouldRetreat = BT.Condition(ShouldRetreat);
@@ -64,22 +96,23 @@ public class BehaviorUnique : MonoBehaviour
         Sequence retreatSeq = new Sequence();
         Sequence idleSeq = new Sequence();
         // add branches to attack sequence (attSeq)
-        attSeq.OpenBranch(foundPlayer);
-        attSeq.OpenBranch(follow);
-        attSeq.OpenBranch(attack);
+        attSeq.OpenBranch(foundPlayer, follow, attack);
+        //attSeq.OpenBranch(follow);
+        //attSeq.OpenBranch(attack);
         // add branches to retreat sequence (retreatSeq)
-        retreatSeq.OpenBranch(shouldRetreat);
-        retreatSeq.OpenBranch(retreat);
+        retreatSeq.OpenBranch(shouldRetreat, retreat);
+        //retreatSeq.OpenBranch(retreat);
         // add branches to idle sequence (idleSeq)
-        idleSeq.OpenBranch(wander);
-        idleSeq.OpenBranch(rest);
+        idleSeq.OpenBranch(wander, rest);
+        //idleSeq.OpenBranch(rest);
         // add branches to selector
         Selector selector = BT.Selector();
-        selector.OpenBranch(attSeq);
-        selector.OpenBranch(retreatSeq);
-        selector.OpenBranch(idleSeq);
+        selector.OpenBranch(attSeq, retreatSeq, idleSeq);
+        //selector.OpenBranch();
+        //selector.OpenBranch();
         // add branch to root
         _treeRoot.OpenBranch(selector);
+        
     }
 
     // Update is called once per frame
@@ -124,7 +157,7 @@ public class BehaviorUnique : MonoBehaviour
         while (agent.remainingDistance > .1f)
         {
             NavMesh.SamplePosition(destination, out hit, 2.0f, NavMesh.AllAreas);
-                agent.SetDestination(hit.position);
+            agent.SetDestination(hit.position);
             yield return BTState.Continue;
         }
 
@@ -175,19 +208,22 @@ public class BehaviorUnique : MonoBehaviour
         _RandomPoint(restArea.transform.position, 
             restArea.transform.localScale.x, out target);
         agent.SetDestination(target);
-
+        yield return BTState.Continue;
+        
        // wait for agent to reach destination
         while (agent.remainingDistance > 0.1f)
         {   // abort the wander behavior when found player in range
-            if (FoundPlayer()) {
+            /*if (FoundPlayer()) {
                 agent.ResetPath(); // Clears the path and stops the agent.
                 //agent.velocity = Vector3.zero; // Stops any residual movement.
                 yield return BTState.Abort;
                 yield break;
-            }
+            }*/
+            //Debug.Log(agent.remainingDistance);
             // otherwise continue wandering
             yield return BTState.Continue;
         }
+        //agent.ResetPath();
         yield return BTState.Success;
     }
 
@@ -219,11 +255,11 @@ public class BehaviorUnique : MonoBehaviour
         if (distance < observeRange) 
         {
             _foundPlayer = true;
-            Debug.Log("FoundPlayer() returned true");
+            //Debug.Log("FoundPlayer() returned true");
             return true;
         }
         _foundPlayer = false;
-        Debug.Log("FoundPlayer() returned false");
+        //Debug.Log("FoundPlayer() returned false");
         return false;
     }
 
@@ -250,7 +286,7 @@ public class BehaviorUnique : MonoBehaviour
         {
             Vector3 randomPoint = center + Random.insideUnitSphere * range;
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
             {
                 result = hit.position;
                 return true;

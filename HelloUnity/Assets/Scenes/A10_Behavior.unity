@@ -297,31 +297,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.857143
+      value: 19.57395
       objectReference: {fileID: 0}
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -49.8399
+      value: -34.321426
       objectReference: {fileID: 0}
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.4384248
+      value: -1.5549326
       objectReference: {fileID: 0}
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.11247734
+      value: 0.10623552
       objectReference: {fileID: 0}
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.06550853
+      value: -0.043168403
       objectReference: {fileID: 0}
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.81657106
+      value: -0.9268344
       objectReference: {fileID: 0}
     - target: {fileID: 697446566438743346, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.5623782
+      value: -0.35753098
       objectReference: {fileID: 0}
     - target: {fileID: 2919023226305152968, guid: 92e0eb1de3fc047ff93633ea3809e775, type: 3}
       propertyPath: m_TargetTexture
@@ -761,13 +761,7 @@ PrefabInstance:
       addedObject: {fileID: 2051882755}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc80e55f92aac4193b9f9efcc5390104, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2051882754}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc80e55f92aac4193b9f9efcc5390104, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2051882753}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc80e55f92aac4193b9f9efcc5390104, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2051882758}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc80e55f92aac4193b9f9efcc5390104, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2051882759}
@@ -800,19 +794,6 @@ CapsuleCollider:
   m_Height: 10
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &2051882754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051882752}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9272a7054207f384881764d6e8384c60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 10
 --- !u!195 &2051882755
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -827,7 +808,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -835,19 +816,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2051882758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051882752}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb0ecebc5fbc45848961c070b424eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wanderRange: {fileID: 74519726}
 --- !u!114 &2051882759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,7 +830,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   restArea: {fileID: 74519722}
   attackRange: 2
-  followRange: 15
   observeRange: 10
   target: {fileID: 931205834}
   playerHome: {fileID: 515476590}
