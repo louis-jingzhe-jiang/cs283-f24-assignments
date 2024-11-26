@@ -24,8 +24,10 @@ public class BehaviorUnique : MonoBehaviour
     // public variables
     public GameObject enemy;
     public GameObject player;
+    public GameObject bullet;
     public float attackRange;
     public float observeRange;
+    public float bulletSpeed;
     // behavior tree structure
     private Root treeRoot;
     private Selector selector;
@@ -70,21 +72,83 @@ public class BehaviorUnique : MonoBehaviour
         treeRoot.Tick();
     }
 
+    /// <summary>
+    /// The defender shoots a bullet towards the enemy. This function is done
+    /// by moving the GameObject bullet towards the enemy at every frame
+    /// </summary>
+    /// <returns></returns>
     IEnumerator<BTState> Attack()
     {
-        // To Be Implemented
+        // move bullet to the defender's position
+        bullet.transform.position = transform.position;
+        // make the bullet visible
+        bullet.SetActive(true);
+        // bullet will be active for at most 5 seconds
+        float time = 0f;
+        while (time < 5f)
+        {
+            time += Time.deltaTime;
+            Vector3 lookDirection = enemy.transform.position 
+                - transform.position;
+            transform.rotation = Quaternion.LookRotation(lookDirection);
+            Vector3 direction = enemy.transform.position 
+                - bullet.transform.position;
+            if (Vector3.Magnitude(direction) <= 0.1f)
+            {
+                break;
+            }
+            Vector3 unitDirection = Vector3.Normalize(direction);
+            bullet.transform.position += bulletSpeed * Time.deltaTime 
+                * unitDirection;
+            yield return BTState.Continue;
+        }
+        bullet.SetActive(false);
         yield return BTState.Success;
     }
 
+    /// <summary>
+    /// The defender look towards the player. This function is done through
+    /// look towards.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator<BTState> Look()
     {
         // To Be Implemented
+        Vector3 direction = player.transform.position - transform.position;
+        transform.rotation = Quaternion.LookRotation(direction);
         yield return BTState.Success;
     }
 
+    /// <summary>
+    /// The defender look towards some random point. This function is done 
+    /// through lerp and/or slerp.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator<BTState> Idle()
     {
         // To Be Implemented
+        float xComponent = Random.Range(-1f, 1f);
+        float zComponent = Random.Range(-1f, 1f);
+        Vector3 lookDirection = new Vector3(xComponent, 0, zComponent);
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+        Quaternion startRotation = transform.rotation;
+        // each slerp should last 3 seconds
+        float timeElapsed = 0;
+        float time = 3f;
+        while (timeElapsed <= time)
+        {
+            transform.rotation = Quaternion.Slerp(startRotation, 
+                targetRotation, timeElapsed / time);
+            timeElapsed += Time.deltaTime;
+            yield return BTState.Continue;
+        }
+        // rest for 5 seconds
+        time = 0f;
+        while (time < 5f)
+        {
+            time += Time.deltaTime;
+            yield return BTState.Continue;
+        }
         yield return BTState.Success;
     }
 

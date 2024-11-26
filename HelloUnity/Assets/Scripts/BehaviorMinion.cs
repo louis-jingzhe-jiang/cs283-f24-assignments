@@ -18,9 +18,9 @@ using UnityEngine.AI;
  *         - Follow Sequence (Sequence)
  *           - Determine whether the player is in its home area (Condition)
  *           - Do follow (Action / RunCoroutine)
- *     - Retreat Sequence (Sequence)
- *       - Determine whether the player is in its home area (Condition)
- *       - Do retreat (Action / RunCoroutine)
+ *         - Retreat Sequence (Sequence)
+ *           - Determine whether the player is in its home area (Condition)
+ *           - Do retreat (Action / RunCoroutine)
  *     - Idle Sequence (Sequence)
  *       - Do idle (Action / RunCoroutine)
  */
@@ -50,7 +50,6 @@ public class BehaviorMinion : MonoBehaviour
     private Sequence retreatSequence; // Retreat Sequence
     // Determine whether the player is in its home area
     private bool shouldRetreat;
-    private BTNode shouldRetreatC;
     private BTNode retreat; // Do Retreat
     private Sequence idleSequence; // Idle Sequence
     private BTNode idle; // Do Idle
@@ -76,7 +75,6 @@ public class BehaviorMinion : MonoBehaviour
         followSequence = BT.Sequence();
         shouldFollowC = BT.Condition(NotAtHomeM);
         retreatSequence = BT.Sequence();
-        shouldRetreatC = BT.Condition(ShouldRetreatM);
         retreat = BT.RunCoroutine(Retreat);
         idleSequence = BT.Sequence();
         idle = BT.RunCoroutine(Idle);
@@ -85,12 +83,12 @@ public class BehaviorMinion : MonoBehaviour
         // link
         idleSequence.OpenBranch(idle);
         followSequence.OpenBranch(shouldFollowC, follow);
-        retreatSequence.OpenBranch(shouldRetreatC, retreat);
+        retreatSequence.OpenBranch(retreat);
         attackSequence.OpenBranch(shouldAttackC, attack, shouldFollowC, 
             follow);
-        secondSelector.OpenBranch(attackSequence, followSequence);
+        secondSelector.OpenBranch(attackSequence, followSequence, retreatSequence);
         followAttack.OpenBranch(isInSightC, secondSelector);
-        mainSelector.OpenBranch(followAttack, retreatSequence, idleSequence);
+        mainSelector.OpenBranch(followAttack, idleSequence);
         treeRoot.OpenBranch(mainSelector);
         // initialize other private variables
         animator = GetComponent<Animator>();
@@ -252,7 +250,6 @@ public class BehaviorMinion : MonoBehaviour
 
     bool ShouldRetreatM()
     {
-        // To Be Implemented
         if (! isInSight)
         {
             return false;
