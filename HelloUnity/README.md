@@ -137,4 +137,4 @@ In my BehaviorUnique script, the bunnies act as guards. When the skeleton gets c
 
 Here is the video
 
-![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A010.mp4)
+(https://raw.githubusercontent.com/louis-jingzhe-jiang/cs283-f24-assignments/branch/HelloUity/A10.mp4)
