@@ -120,8 +120,21 @@ Here is the GIF:
 
 # A08
 
+Here is the GIF:
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A08.gif)
+
+
 # A09
 
 Here is the GIF:
 
 ![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A09.gif)
+
+# A10
+
+In my BehaviorUnique script, the bunnies act as guards. When the skeleton gets close enough towards the home area, the bunnies will shoot balls towards the skeleton. When the skeleton is not around, they will look towards the player if the player is close enough to them. Otherwise, the bunnies will look around randomly.
+
+Here is the video
+
+![](https://github.com/louis-jingzhe-jiang/cs283-f24-assignments/blob/main/HelloUnity/A010.mp4)
