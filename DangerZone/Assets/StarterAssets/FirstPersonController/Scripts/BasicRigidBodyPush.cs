@@ -8,7 +8,6 @@ public class BasicRigidBodyPush : MonoBehaviour
 
 	private void OnControllerColliderHit(ControllerColliderHit hit)
 	{
-		Debug.Log(hit.gameObject);
 		if (canPush) PushRigidBodies(hit);
 	}
 
