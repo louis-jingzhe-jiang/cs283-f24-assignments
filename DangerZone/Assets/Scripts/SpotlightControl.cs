@@ -27,7 +27,7 @@ public class SpotlightControl : MonoBehaviour
         }
         // monitor the scrollwheel to change the focus of the spotlight
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-        Debug.Log(scrollInput);
+        // Debug.Log(scrollInput);
         if (scrollInput > 0 && _light.spotAngle < maxSpotAngle)
         {
             _light.spotAngle += 2 * scrollInput;
