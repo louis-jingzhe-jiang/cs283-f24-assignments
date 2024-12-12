@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Monster
+  - Spawn Trigger
   layers:
   - Default
   - TransparentFX

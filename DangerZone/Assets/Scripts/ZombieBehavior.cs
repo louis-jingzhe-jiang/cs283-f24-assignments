@@ -111,6 +111,14 @@ public class ZombieBehavior : MonoBehaviour
             time += Time.deltaTime;
             yield return BTState.Continue;
         }
+        // determine whether the player is still close to the zombie
+        if (GetDistanceFromPlayer() < attackRange + 1.5f)
+        {
+            // the player gets damage
+            int.TryParse(health.text, out int currHealth);
+            currHealth -= damage;
+            health.text = currHealth.ToString();
+        }
         _animator.SetBool("attacking", false);
         _animator.SetBool("targeting", false);
         time = 0;
@@ -199,6 +207,11 @@ public class ZombieBehavior : MonoBehaviour
         yield return BTState.Continue;
         while (_agent.remainingDistance > 0.1f)
         {
+            if (IsInSight()) // found player
+            {
+                yield return BTState.Failure;
+            }
+            time += Time.deltaTime;
             yield return BTState.Continue;
         }
         _animator.SetBool("walk", false);
@@ -230,9 +243,7 @@ public class ZombieBehavior : MonoBehaviour
 
     bool IsInAttackRange()
     {
-        float distance = Vector3.Magnitude(
-            player.transform.position - transform.position);
-        if (distance <= attackRange)
+        if (GetDistanceFromPlayer() <= attackRange)
         {
             return true;
         }
@@ -272,5 +283,11 @@ public class ZombieBehavior : MonoBehaviour
         }
         result = Vector3.zero;
         return false;
+    }
+
+    float GetDistanceFromPlayer()
+    {
+        return Vector3.Magnitude(
+            player.transform.position - transform.position);
     }
 }
