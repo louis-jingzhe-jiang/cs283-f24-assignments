@@ -103,7 +103,7 @@ public class ZombieBehavior : MonoBehaviour
     /// <returns></returns>
     IEnumerator<BTState> Attack()
     {
-        Debug.Log("Entered Attack Sequence");
+        // Debug.Log("Entered Attack Sequence");
         _animator.SetBool("attacking", true);
         float time = 0;
         while (time < 1f)

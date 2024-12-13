@@ -28,12 +28,12 @@ public class MonsterSpawner : MonoBehaviour
             GameObject demon = GameObject.Find("/Demon_default/Demon");
             Animator animator = demon.GetComponent<Animator>();
             animator.SetBool("spawn", true);
-            StartCoroutine(WaitFor1Sec(animator));
+            StartCoroutine(WaitFor2Sec(animator));
             // disable the collider game object
             hitBox.SetActive(false);
         }
     }
-    private IEnumerator WaitFor1Sec(Animator animator) 
+    private IEnumerator WaitFor2Sec(Animator animator) 
     {
         yield return new WaitForSeconds(2.0f);
         animator.SetBool("spawn", false);
