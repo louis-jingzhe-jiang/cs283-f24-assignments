@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BTAI;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -110,6 +110,7 @@ public class MonsterBehavior : MonoBehaviour
 
     IEnumerator<BTState> Idle()
     {
+        Debug.Log("Entered idle");
         _agent.speed = 1.5f;
         _agent.acceleration = 0.5f;
         // rest for 10 seconds first
@@ -155,9 +156,10 @@ public class MonsterBehavior : MonoBehaviour
 
     IEnumerator<BTState> Follow()
     {
+        Debug.Log("Entered follow");
         _animator.SetBool("chase", true);
         _agent.speed = 4.8f;
-        _agent.acceleration = 4f;
+        _agent.acceleration = 3f;
         _agent.SetDestination(player.transform.position);
         yield return BTState.Continue;
         float time;
@@ -172,6 +174,7 @@ public class MonsterBehavior : MonoBehaviour
                 yield return BTState.Continue;
             }
             time1 += time;
+            //_agent.SetDestination(transform.position);
             yield return BTState.Continue;
         }
         yield return BTState.Success;
@@ -184,11 +187,12 @@ public class MonsterBehavior : MonoBehaviour
     /// <returns></returns>
     IEnumerator<BTState> RangeAttack()
     {
+        Debug.Log("Entered ranged attack");
         _animator.SetBool("throw", true);
         _animator.SetBool("chase", true);
         _animator.SetBool("throwFail", false);
         // stop the movement by setting the destination to its position
-        _agent.SetDestination(transform.position);
+        _agent.SetDestination(transform.position); 
         // wait for 1 frame
         yield return BTState.Continue;
         // make sure the monster faces the player
@@ -205,23 +209,32 @@ public class MonsterBehavior : MonoBehaviour
             time += Time.deltaTime;
             if (_animator.GetBool("returnToChase"))
             {
+                _animator.SetBool("throw", false);
                 yield return BTState.Failure;
             }
             yield return BTState.Continue;
         }
         // get the ball back
         _animator.SetBool("transitNext", true);
+        _animator.SetBool("throw", false);
         while (time < 4f)
         {
             time += Time.deltaTime;
             yield return BTState.Continue;
         }
         _animator.SetBool("transitNext", false);
+        _animator.SetBool("returnToChase", true);
+        for (int i = 0; i < 10; i++)
+        {
+            yield return BTState.Continue;
+        }
+        _animator.SetBool("returnToChase", false);
         yield return BTState.Success;
     }
 
     IEnumerator<BTState> MeleeAttack()
     {
+        Debug.Log("Entered melee attack");
         float randomNumber = Random.Range(0f, 3f);
         if (randomNumber < 1f)
         {
@@ -280,31 +293,85 @@ public class MonsterBehavior : MonoBehaviour
             _animator.SetBool("punch3", false);
         }
         _animator.SetBool("transitNext", true);
+        float time1 = 0;
+        while (time1 < 2f)
+        {
+            time1 += Time.deltaTime;
+            yield return BTState.Continue;
+        }
+        _animator.SetBool("transitNext", false);
+        _animator.SetBool("returnToChase", true);
+        for (int i = 0; i < 10; i++)
+        {
+            yield return BTState.Continue;
+        }
+        _animator.SetBool("returnToChase", false);
         yield return BTState.Success;
     }
 
     bool IsInSight()
     {
+        float verticalDist = player.transform.position.y -
+            transform.position.y;
+        if (verticalDist > 3.5)
+        {
+            return false;
+        }
+        float horizontalDist = Mathf.Sqrt(
+            Mathf.Pow(player.transform.position.x - transform.position.x, 2) +
+            Mathf.Pow(player.transform.position.z - transform.position.z, 2)
+            );
+        if (horizontalDist <= observeRange)
+        {
+            return true;
+        }
         return false;
     }
 
     bool IsInRangeRange()
     {
+        if (GetDistanceFromPlayer() <= rangedAttackRange)
+        {
+            return true;
+        }
         return false;
     }
 
     bool ShouldRangeAtt()
     {
+        float randomNumber = Random.Range(0f, 1f);
+        if (randomNumber > 0.8f)
+        {
+            return true;
+        }
         return false;
     }
 
     bool IsInMeleeRange()
     {
+        if (GetDistanceFromPlayer() <= meleeAttackRange)
+        {
+            return true;
+        }
         return false;
     }
 
     bool IsInFollowRange()
     {
+        float verticalDist = player.transform.position.y -
+            transform.position.y;
+        if (verticalDist > 3.5)
+        {
+            return false;
+        }
+        float horizontalDist = Mathf.Sqrt(
+            Mathf.Pow(player.transform.position.x - transform.position.x, 2) +
+            Mathf.Pow(player.transform.position.z - transform.position.z, 2)
+            );
+        if (horizontalDist <= followRange)
+        {
+            return true;
+        }
         return false;
     }
 

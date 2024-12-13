@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeathMenuController : MonoBehaviour
 {
@@ -14,5 +15,11 @@ public class DeathMenuController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnMenuButtonPressed()
+    {
+        // Load the main scene
+        SceneManager.LoadScene("Menu");
     }
 }
