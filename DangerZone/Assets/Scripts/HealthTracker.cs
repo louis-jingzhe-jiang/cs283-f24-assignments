@@ -18,13 +18,15 @@ public class HealthTracker : MonoBehaviour
     void Start()
     {
         int.TryParse(health.text, out _healthNum);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         int.TryParse(health.text, out int currHealth);
-        if (currHealth < _healthNum) 
+        if (currHealth < _healthNum)
         {
             // blink the image
             _healthNum = currHealth;
@@ -34,7 +36,22 @@ public class HealthTracker : MonoBehaviour
         {
             health.text = 0.ToString();
             // go to died scene
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene("GameOver");
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 

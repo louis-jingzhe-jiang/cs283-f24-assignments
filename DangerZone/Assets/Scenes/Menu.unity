@@ -700,10 +700,11 @@ MonoBehaviour:
     to focus / unfocus the flashlight
 
 
-    Try to find a key to the door and escape!
+    Try to find a book in the dungeon first
+    and get to the door to escape!
 
-    Beware
-    of the monsters, dont let them hit you!'
+    Beware of the monsters, dont let them hit
+    you!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
